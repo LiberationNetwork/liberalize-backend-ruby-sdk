@@ -35,10 +35,10 @@ class LiberalizeBackendRubySdk
                     target_amount = value.to_i
                     validatedRequest[:amount] = target_amount
                 when "source"
-                    if value.is_a?(String)
-                        validatedRequest[:source] = value
+                    if value.start_with?("card")
+                        validatedRequest[:source] = "lib:customer:paymentMethods/#{value}"
                     else
-                        validatedRequest[:source] = "lib:customer:paymentMethods/#{value[:paymentMethodId]}"
+                        validatedRequest[:source] = value
                     end
                 else
                     validatedRequest[key] = value
@@ -79,10 +79,10 @@ class LiberalizeBackendRubySdk
             requestBody.each do |key, value|
                 case "#{key}"
                 when "source"
-                    if value.is_a?(String)
-                        validatedRequest[:source] = value
+                    if value.start_with?("card")
+                        validatedRequest[:source] = "lib:customer:paymentMethods/#{value}"
                     else
-                        validatedRequest[:source] = "lib:customer:paymentMethods/#{value[:paymentMethodId]}"
+                        validatedRequest[:source] = value
                     end
                 when "paymentId"
                     paymentId = value
